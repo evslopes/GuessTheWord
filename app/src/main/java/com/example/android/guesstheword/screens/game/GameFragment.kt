@@ -39,8 +39,10 @@ class GameFragment : Fragment() {
 
     private lateinit var viewModel: GameViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
 
         // Inflate view and obtain an instance of the binding class
         binding = DataBindingUtil.inflate(
@@ -52,6 +54,10 @@ class GameFragment : Fragment() {
 
         Log.i("GameFragment", "Called ViewMovelProvider.get")
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
+
+        // Set the viewmodel for databinding - this allows the bound layout access
+        // to all the data in the ViewModel
+        binding.gameViewModel = viewModel
 
         //Observador para a pontuação
         viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
@@ -65,7 +71,7 @@ class GameFragment : Fragment() {
 
         //Observador para o final do jogo
         viewModel.eventGameFinish.observe(viewLifecycleOwner,
-                Observer<Boolean> {hasFinished ->
+                Observer<Boolean> { hasFinished ->
                     if (hasFinished) gameFinished()
                 })
 
@@ -91,16 +97,16 @@ class GameFragment : Fragment() {
 
     /** Methods for updating the UI **/
 
-    private fun onEndGame(){
-       gameFinished()
+    private fun onEndGame() {
+        gameFinished()
     }
 
-    private fun gameFinished(){
+    private fun gameFinished() {
         Toast.makeText(activity,
                 "Game just finished",
                 Toast.LENGTH_SHORT).show()
         val action = GameFragmentDirections.actionGameToScore()
-        action.score = viewModel.score.value?:0
+        action.score = viewModel.score.value ?: 0
         NavHostFragment.findNavController(this).navigate(action)
         viewModel.onGameFinishComplete()
     }
