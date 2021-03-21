@@ -59,15 +59,7 @@ class GameFragment : Fragment() {
         // to all the data in the ViewModel
         binding.gameViewModel = viewModel
 
-        //Observador para a pontuação
-        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
-
-        //Observador para a palavra
-        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
-            binding.wordText.text = newWord
-        })
+        binding.lifecycleOwner = viewLifecycleOwner
 
         //Observador para o final do jogo
         viewModel.eventGameFinish.observe(viewLifecycleOwner,
