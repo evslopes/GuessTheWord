@@ -70,6 +70,14 @@ class GameViewModel : ViewModel() {
         wordList.shuffle()
     }
 
+    // The Hint for the current word
+    val wordHint = Transformations.map(word) { word ->
+        val randomPosition = (1..word.length).random()
+        "Current word has " + word.length + " letters" +
+                "\nThe letter at position " + randomPosition + " is " +
+                word.get(randomPosition - 1).toUpperCase()
+    }
+
     companion object{
         // Time when the game is over
         private const val DONE = 0L
